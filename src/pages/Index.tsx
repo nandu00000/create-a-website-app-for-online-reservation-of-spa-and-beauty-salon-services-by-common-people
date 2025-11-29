@@ -153,7 +153,7 @@ const Index = () => {
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
             Join thousands who have discovered a better way to book spa and beauty services
           </p>
-          <NavLink to="/auth?mode=signup">
+          <NavLink to="/signup">
             <Button size="lg" variant="secondary" className="text-base px-8">
               Create Free Account
             </Button>

@@ -30,10 +30,10 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <NavLink to="/auth">
+            <NavLink to="/signin">
               <Button variant="ghost">Sign In</Button>
             </NavLink>
-            <NavLink to="/auth?mode=signup">
+            <NavLink to="/signup">
               <Button>Get Started</Button>
             </NavLink>
           </div>
