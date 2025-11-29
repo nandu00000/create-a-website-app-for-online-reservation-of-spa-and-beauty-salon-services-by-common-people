@@ -42,12 +42,19 @@ const Dashboard = () => {
                 Manage your spa and beauty appointments
               </p>
             </div>
-            <NavLink to="/salons">
-              <Button size="lg">
-                <Plus className="h-5 w-5 mr-2" />
-                New Booking
-              </Button>
-            </NavLink>
+            <div className="flex gap-3">
+              <NavLink to="/account">
+                <Button variant="outline" size="lg">
+                  Account Settings
+                </Button>
+              </NavLink>
+              <NavLink to="/salons">
+                <Button size="lg">
+                  <Plus className="h-5 w-5 mr-2" />
+                  New Booking
+                </Button>
+              </NavLink>
+            </div>
           </div>
 
           <div className="grid gap-6">
