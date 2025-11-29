@@ -6,9 +6,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Sparkles } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -16,15 +20,33 @@ const SignUp = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/`,
+        data: {
+          full_name: name,
+        },
+      },
+    });
+
+    setIsLoading(false);
+
+    if (error) {
       toast({
-        title: "Account created!",
-        description: "Your account has been created successfully.",
+        title: "Sign up failed",
+        description: error.message,
+        variant: "destructive",
       });
-      navigate("/dashboard");
-    }, 1500);
+      return;
+    }
+
+    toast({
+      title: "Account created!",
+      description: "Your account has been created successfully.",
+    });
+    navigate("/dashboard");
   };
 
   return (
@@ -47,15 +69,35 @@ const SignUp = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
-                <Input id="name" type="text" placeholder="John Doe" required />
+                <Input 
+                  id="name" 
+                  type="text" 
+                  placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required 
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="you@example.com" required />
+                <Input 
+                  id="email" 
+                  type="email" 
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required 
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" required />
+                <Input 
+                  id="password" 
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required 
+                />
               </div>
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Creating account..." : "Create Account"}
